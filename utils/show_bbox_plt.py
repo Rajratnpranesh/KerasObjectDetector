@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 def draw_bounding_boxes_on_images(images, results, class_info, thresold=0.6):
 	for i, img in enumerate(images):
-		# Parse the outputs. each result contains many boxes.
+		# Parse the outputs. each result contains many boxes. 
 		det_label = results[i][:, 0]
 		det_conf = results[i][:, 1]
 		det_xmin = results[i][:, 2]
@@ -22,11 +22,17 @@ def draw_bounding_boxes_on_images(images, results, class_info, thresold=0.6):
 
 		colors = plt.cm.hsv(np.linspace(0, 1, len(class_info) )).tolist() 
 
+		dpi = plt.gcf().dpi
+		print(dpi)
+		xinch = np.shape(img)[1] / dpi
+		yinch = np.shape(img)[0] / dpi
+		print (xinch,yinch)
+		plt.figure(figsize=(xinch,yinch))
 		plt.imshow(img / 255.)
+
 		currentAxis = plt.gca()
 
 		for box_idx in range(top_conf.shape[0]):
-			print('segmentation_{}'.format(box_idx))
 			xmin = top_xmin[box_idx]
 			ymin = top_ymin[box_idx]
 			xmax = top_xmax[box_idx]
